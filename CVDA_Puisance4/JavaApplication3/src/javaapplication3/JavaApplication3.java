@@ -161,26 +161,42 @@ public class JavaApplication3 {
     }
     
     private static boolean verificationDiagonaleDroite(){
-       int i,j;
-       int somme = 0;
-       /*
-       for(i=;i<grille.length;i++)
-        {
-            for(j=0;j<grille[i].length;j++)
-            {
-                if(grille[i][j] == jeton){    
-                    somme ++; 
+        int ligne,colonne,diagonaleParcourues,caseParcourues;
+        int somme = 0;
+        
+        int limiteCase = 4;                                                     //Première diagonale à vérifier comporte 4 cases
+        int ligneDepart = 2;
+        int colDepart = 0;
+        
+        for(diagonaleParcourues=0;diagonaleParcourues<6;diagonaleParcourues++){                                                       //i = Nombre de diagonales parcourues
+            ligne = ligneDepart;
+            colonne = colDepart;
+            for (caseParcourues=0;caseParcourues<limiteCase;caseParcourues++){                                         //j = Nombre de cases parcourues
+                if(grille[ligne][colonne] == jeton){    
+                   somme ++; 
                 } else {
-                    somme = 0;
+                   somme = 0;
                 }
                 
-                if(somme == 4){
-                    return true;
-                }               
-            } 
-            somme = 0;                                                          
-        }*/
-       
+                if(somme == 4){                                                 //Si 4 sont alignés fin de la partie
+                   return true;
+                }  
+                colonne++;
+                ligne++;
+            }
+            somme = 0;
+            if(ligneDepart >0)
+            {
+                ligneDepart--;
+                limiteCase++;
+            } else if (colDepart == 0 && limiteCase == 6){
+                colDepart++;
+                limiteCase--;
+            } else if (colDepart >  0) {
+                colDepart++;
+                limiteCase--;
+            }
+        }
        return false;
     }
 }
