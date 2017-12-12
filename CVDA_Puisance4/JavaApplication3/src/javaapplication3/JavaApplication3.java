@@ -3,7 +3,6 @@ package javaapplication3;
 import java.util.*;
 
 public class JavaApplication3 {
-    static int[][] grille = new int[6][7];
     static boolean joueur;
     static int jeton;
     static boolean gameisover;
@@ -11,21 +10,23 @@ public class JavaApplication3 {
     public static void main(String[] args) {
         // TODO code application logic here
         int tour = 0;
-        init();
+        int grille[][] = init();
         while (gameisover != true){
-            boolean done = jouer();
-            affiche();
+            int choix = choisir();
+            boolean done = jouer(choix,grille);
+            affiche(grille);
             if (done == true){                                                  // Ajoute un tour si un jeton a été ajouté
                 tour ++;
             }
             if (tour >= 7){                                                     // On ne vérifie que si au moins 4 jetons sont en jeu pour le joueur 1 (tour 7)
-                verification(tour);
+                verification(tour, grille);
             }
         }
     }
     
-    private static void init(){
+    public static int[][] init(){
         int i,j;
+        int[][] grille = new int[6][7];
         joueur = true;
         gameisover = false;
         for(i=0;i<grille.length;i++)
@@ -36,10 +37,11 @@ public class JavaApplication3 {
                 
             }
         }
-        affiche();
+        affiche(grille);
+        return grille;
     }
     
-    private static void affiche(){
+    private static void affiche(int grille[][]){
         int i,j;
         System.out.println("\n1 2 3 4 5 6 7 \n");
         for(i=0;i<grille.length;i++)
@@ -59,19 +61,22 @@ public class JavaApplication3 {
         }
     }
     
-    private static boolean jouer(){
-        if (joueur == true){
-            jeton = 1;
-        } else {
-            jeton = 2;
-        }
-        
+    public static int choisir(){
         int colonne = -1;                                                       //Vérifie que la colonne est dans le tableau
         while (colonne < 0 || colonne > 6 ){
             System.out.print("Quel colonne ? ");
             Scanner input = new Scanner(System.in);
             colonne = input.nextInt();
             colonne --;
+        }
+        return colonne;
+    }
+    
+    public static boolean jouer(int colonne, int grille[][]){
+        if (joueur == true){
+            jeton = 1;
+        } else {
+            jeton = 2;
         }
         
         int i,j;
@@ -99,15 +104,15 @@ public class JavaApplication3 {
         return true;
     }
     
-    private static void verification(int tour){
+    private static void verification(int tour, int grille[][]){
         boolean v1,v2,v3,v4;
-        v1 = verificationHorizontale();
-        v2 = verificationVerticale();
+        v1 = verificationHorizontale(grille);
+        v2 = verificationVerticale(grille);
         v3 = false;
         v4 = false;
         if (tour >= 10){
-            v3 = verificationDiagonaleDroite();                                 // On ne verifie les diagonales que si au moins 10 jetons on été joués
-            v4 = verificationDiagonaleGauche();
+            v3 = verificationDiagonaleDroite(grille);                           // On ne verifie les diagonales que si au moins 10 jetons on été joués
+            v4 = verificationDiagonaleGauche(grille);
         }
         if (v1 == true || v2 == true || v3 == true || v4 == true)
         {
@@ -116,7 +121,7 @@ public class JavaApplication3 {
         }
     }
     
-    private static boolean verificationHorizontale(){
+    private static boolean verificationHorizontale(int grille[][]){
        int i,j;
        int somme = 0;
         
@@ -139,7 +144,7 @@ public class JavaApplication3 {
        return false;
     }
     
-    private static boolean verificationVerticale(){
+    private static boolean verificationVerticale(int grille[][]){
        int i,j;
        int somme = 0;
        for(j=0;j<grille[0].length;j++)                                          // grille[0].length = 7 colonne
@@ -161,7 +166,7 @@ public class JavaApplication3 {
        return false;
     }
     
-    private static boolean verificationDiagonaleDroite(){
+    private static boolean verificationDiagonaleDroite(int grille[][]){
         int ligne,colonne,diagonaleParcourues,caseParcourues;
         int somme = 0;
         
@@ -200,7 +205,7 @@ public class JavaApplication3 {
         return false;
     }
     
-    private static boolean verificationDiagonaleGauche(){
+    private static boolean verificationDiagonaleGauche(int grille[][]){
         int ligne,colonne,diagonaleParcourues,caseParcourues;
         int somme = 0;
         
