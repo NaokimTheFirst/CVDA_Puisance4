@@ -107,8 +107,9 @@ public class JavaApplication3 {
         v4 = false;
         if (tour >= 10){
             v3 = verificationDiagonaleDroite();                                 // On ne verifie les diagonales que si au moins 10 jetons on été joués
+            v4 = verificationDiagonaleGauche();
         }
-        if (v1 == true || v2 == true || v3 == true /*|| v4 == true*/)
+        if (v1 == true || v2 == true || v3 == true || v4 == true)
         {
             System.out.println("Joueur "+jeton+" a gagné !");
             gameisover = true;
@@ -168,10 +169,10 @@ public class JavaApplication3 {
         int ligneDepart = 2;
         int colDepart = 0;
         
-        for(diagonaleParcourues=0;diagonaleParcourues<6;diagonaleParcourues++){                                                       //i = Nombre de diagonales parcourues
+        for(diagonaleParcourues=0;diagonaleParcourues<6;diagonaleParcourues++){ 
             ligne = ligneDepart;
             colonne = colDepart;
-            for (caseParcourues=0;caseParcourues<limiteCase;caseParcourues++){                                         //j = Nombre de cases parcourues
+            for (caseParcourues=0;caseParcourues<limiteCase;caseParcourues++){  
                 if(grille[ligne][colonne] == jeton){    
                    somme ++; 
                 } else {
@@ -191,12 +192,50 @@ public class JavaApplication3 {
                 limiteCase++;
             } else if (colDepart == 0 && limiteCase == 6){
                 colDepart++;
-                limiteCase--;
             } else if (colDepart >  0) {
                 colDepart++;
                 limiteCase--;
             }
         }
-       return false;
+        return false;
+    }
+    
+    private static boolean verificationDiagonaleGauche(){
+        int ligne,colonne,diagonaleParcourues,caseParcourues;
+        int somme = 0;
+        
+        int limiteCase = 4;                                                     //Première diagonale à vérifier comporte 4 cases
+        int ligneDepart = 0;
+        int colDepart = 3;
+        
+        for(diagonaleParcourues=0;diagonaleParcourues<6;diagonaleParcourues++){ 
+            ligne = ligneDepart;
+            colonne = colDepart;
+            for (caseParcourues=0;caseParcourues<limiteCase;caseParcourues++){  
+                if(grille[ligne][colonne] == jeton){    
+                   somme ++; 
+                } else {
+                   somme = 0;
+                }
+                
+                if(somme == 4){                                                 //Si 4 sont alignés fin de la partie
+                   return true;
+                }  
+                colonne--;
+                ligne++;
+            }
+            somme = 0;
+            if(colDepart < 5)
+            {
+                colDepart++;
+                limiteCase++;
+            } else if (colDepart == 5){
+                colDepart++;
+            } else if (colDepart == 6) {
+                ligneDepart++;
+                limiteCase--;
+            }
+        }
+        return false;
     }
 }
