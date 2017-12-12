@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import javaapplication3.*;
+import static javaapplication3.JavaApplication3.*;                              //Toutes les fonctions du script sont reconnues sans écrire *JavaApplication3*
 
 /**
  *
@@ -20,32 +20,40 @@ public class TestFonction1 {
     public TestFonction1() {
         
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-        JavaApplication3.init();
-    }
-    
-    @After
-    public void tearDown() {
+ 
+    @Test
+    public void test1(){
+        //Inititialisation
+        int[][] grille = new int[6][7];
+        int colonne = 0;
+        //Appel
+        boolean resultat = jouer(colonne,grille);
+        //Test si le jeton est bien ajouté
+        assertEquals(resultat,true);
     }
     
     @Test
-    public void test1(){
-       
+    public void test2(){
+        //Inititialisation
+        int[][] grille = {{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0}};
+        
+        int colonne = 0;
+        //Appel
+        boolean resultat = jouer(colonne,grille);
+        //Test d'ajout d'un jeton si la colonne est pleine
+        assertEquals(resultat,false);
+    }
+    
+    @Test
+    public void test3(){
+        //Inititialisation
+        int[][] grille = {{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0},{1,0,0,0,0,0,0}};
+        
+        int colonne = 112;
+        //Appel
+        boolean resultat = jouer(colonne,grille);
+        //Test d'une case en dehors du tableau
+        assertEquals(resultat,false);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }
